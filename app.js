@@ -1,14 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const PORT = process.env.PORT || 3000;
 const dotenv = require('dotenv');
 
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();
-const port = process.env.PORT || 3000;
-const dbUrl = process.env.MONGO_URI; 
 
-mongoose.connect(dbUrl, {
+// Connect to the MongoDB database
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -21,9 +21,9 @@ db.once('open', () => {
 
 app.use(express.json());
 
-const studentRoutes = require('./routes/studentRoutes');
+const studentRoutes = require('./src/routes/studentsRoutes');
 app.use('/api', studentRoutes);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
